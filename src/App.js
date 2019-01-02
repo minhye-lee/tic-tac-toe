@@ -42,6 +42,7 @@ class Game extends Component {
       }],
       isNextX : true,
       stepNumber : 0,
+      isDraw : false
     }
   }
 
@@ -68,21 +69,49 @@ class Game extends Component {
       return;
     }
     _squares[x][y] = this.state.isNextX ? "X" : "O";
+   // console.log(_squares.every(function (currentValue) {console.log(currentValue.length); return currentValue !== [null]}));
+    // if(_squares.every((currentValue) =>{ currentValue =! null})){
+    //   this.setState({
+    //     isDraw : true
+    //   })
+    // }
+    this.checkDraw(_squares);
+    for(let i = 0; i < _squares.length; i++){
+      if(_squares[i].every(element => element !== null) === false){
+        break;
+      }
+    
+    }
 
     this.setState({
       isNextX : !this.state.isNextX,
       squaresHistory : _historySquares.concat([{squares : _squares,}]),
     })
-  //  console.log(x,y);
- //   console.log(_currentSquares);
   }
 
   jumpTo (move) {
 
     this.setState({
       squaresHistory : this.state.squaresHistory.slice(0, move+1),
-      isNextX : (move % 2) === 0
+      isNextX : (move % 2) === 0,
+      isDraw : false
     })
+  }
+
+  checkDraw (squares) {
+    let _isDraw = true;
+    for(let i = 0; i < squares.length; i++){
+      for(let j = 0; j < squares.length; j++){
+        if(squares[i][j] === null){
+          _isDraw = false;
+        }
+      }
+    }
+    if(_isDraw){
+      this.setState({
+        isDraw : true
+      })
+    }
   }
 
   render () {
@@ -98,11 +127,16 @@ class Game extends Component {
     })
 
     let winner = calculateWinner(_currentSquares.squares);
+    console.log("winner " + winner);
     let status;
     
     if(winner) {
       status = 'Winner : ' + winner;
-    } else {
+     }
+     else if(this.state.isDraw) {
+       status = 'Draw!';
+    }
+     else {
       status = 'Next player : ' + (this.state.isNextX ? "X" : "O");
     }
 
@@ -156,9 +190,9 @@ function calculateWinner(squares) {
         countDia1X++;
       if(i === j && squares[i][j] === 'O')
         countDia1O++;
-      if(i+j === squares.length && squares[i][j] === 'X')
+      if(i+j === squares.length-1 && squares[i][j] === 'X')
         countDia2X++;
-      if(i+j === squares.length && squares[i][j] === 'O')
+      if(i+j === squares.length-1 && squares[i][j] === 'O')
         countDia2O++;  
     }
     if(countRowX === squares.length || countRowO === squares.length){
