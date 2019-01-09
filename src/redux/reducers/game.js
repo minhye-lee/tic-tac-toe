@@ -25,15 +25,12 @@ const reducer = (state = initialState, action) => {
 
             _squares[action.x][action.y] = state.isNextX ? "X" : "O";
 
-            // if(checkDraw(_squares)) {
-            //     return 
-            // }
-
             return {
                 ...state,
                 isNextX : !state.isNextX,
                 squaresHistory : _historySquares.concat([{squares : _squares}]),
                 winner : calculateWinner(_squares),
+                isDraw : checkDraw(_squares),
             };
 
         case GO_TO_MOVE :
@@ -121,11 +118,6 @@ function checkDraw (squares) {
         return true;
     else
         return false;
-    // if(_isDraw){
-    //   this.setState({
-    //     isDraw : true
-    //   })
-    // }
 }
 
   export default reducer;
