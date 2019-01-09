@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Square from './Square';
 
 class Board extends Component{
+    
     renderSquare(x, y) {
       return <Square value={this.props.boardsize[x][y]} onClick={() => this.props.onClick(x,y)} />
     }

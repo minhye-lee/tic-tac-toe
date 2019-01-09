@@ -9,22 +9,6 @@ class Game extends Component {
         this.props.setBoardSize(value);
     }
   
-    checkDraw (squares) {
-      let _isDraw = true;
-      for(let i = 0; i < squares.length; i++){
-        for(let j = 0; j < squares.length; j++){
-          if(squares[i][j] === null){
-            _isDraw = false;
-          }
-        }
-      }
-      if(_isDraw){
-        this.setState({
-          isDraw : true
-        })
-      }
-    }
-  
     render () {
   
       let _historySquares = this.props.squaresHistory;
@@ -36,41 +20,24 @@ class Game extends Component {
           <li><button onClick={() => this.props.goToMove(move)}>{desc}</button></li>
         )
       })
-  
-      let winner = this.props.winner;
-      console.log("winner " + winner);
-      let status;
-      
-      if(winner) {
-        status = 'Winner : ' + winner;
-       }
-       else if(this.props.isDraw) {
-         status = 'Draw!';
-      }
-       else {
-        status = 'Next player : ' + (this.props.isNextX ? "X" : "O");
-      }
-  
+        
       return(
         <div className="Game">
             <h1>Tic-Tac-Toe Game</h1>
             <div className="setGameBoard">
                 <label>게임판의 크기를 설정해주세요. : </label>
                     <select onChange={this.setBoard}>
-                        <option value="3">3X3</option>
-                        <option value="4">4X4</option>
-                        <option value="5">5X5</option>
+                        <option value="3">3 X 3</option>
+                        <option value="4">4 X 4</option>
+                        <option value="5">5 X 5</option>
                     </select>
             </div>
             <div className="gameBoard">
                 <Board boardsize={_currentSquares.squares} onClick={this.props.handleClicked}/>
             </div>
-            <div className="gameInfo">
-                <div>{status}</div>
                 <ol>
                     {moves}
                 </ol>
-            </div>
         </div>
       )
     }

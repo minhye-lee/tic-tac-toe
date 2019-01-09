@@ -19,11 +19,15 @@ const reducer = (state = initialState, action) => {
             const _squares = _currentSquares.squares.slice();
             const _winner = calculateWinner(_squares);
 
-            if(_winner || _squares[action.x][action.y]) {
+            if(_winner || _squares[action.x][action.y]) { //승패가 가려지거나 이미 눌러진 버튼이라면 state 리턴
                 return state;
-            }
+            } 
 
             _squares[action.x][action.y] = state.isNextX ? "X" : "O";
+
+            // if(checkDraw(_squares)) {
+            //     return 
+            // }
 
             return {
                 ...state,
@@ -56,7 +60,7 @@ const reducer = (state = initialState, action) => {
 
     }
 }
-
+//승리 로직 함수
 function calculateWinner(squares) {
     let countDia1X = 0;
     let countDia1O = 0;
@@ -102,5 +106,26 @@ function calculateWinner(squares) {
     }  
     return null;
   }
+
+//draw 확인 함수
+function checkDraw (squares) {
+    let _isDraw = true;
+    for(let i = 0; i < squares.length; i++){
+      for(let j = 0; j < squares.length; j++){
+        if(squares[i][j] === null){
+          _isDraw = false;
+        }
+      }
+    }
+    if(_isDraw)
+        return true;
+    else
+        return false;
+    // if(_isDraw){
+    //   this.setState({
+    //     isDraw : true
+    //   })
+    // }
+}
 
   export default reducer;
