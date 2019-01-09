@@ -1,28 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { goToMove } from '../redux/actions';
 
 class Status extends Component {
-    
     render () {
         const winner = this.props.winner;
         let status;
 
-        //console.log("winner" + winner);
         if(winner) {
             status = 'Winner : ' + winner;
         }
-        else if( this.props.isDraw) {
+        else if(this.props.isDraw) {
             status = 'Draw!!!';
         }
         else {
             status = 'Next Player : ' + (this.props.isNextX ? "X" : "O");
         }
 
+        const moves = this.props.squaresHistory.map((step, move) => {
+            const desc = move ? 'Go to move #' + move : 'Go to game start';
+            return(
+              <li><button onClick={() => this.props.goToMove(move)}>{desc}</button></li>
+            )
+          })
 
         return (
             <div className="gameInfo">
-                {status}
+                <div>
+                    {status}
+                </div>
+                <ol>
+                    {moves}
+                </ol>
             </div>
+            
         )
     }
 }
@@ -30,7 +41,14 @@ class Status extends Component {
 const mapStateToProps = (state) => ({
     winner : state.winner,
     isNextX : state.isNextX,
-    isDraw : state.isDraw
+    isDraw : state.isDraw,
+    squaresHistory : state.squaresHistory
 })
 
-export default connect(mapStateToProps, null)(Status);
+const mapDispatchToProps = (dispatch) => ({
+    goToMove(index) {
+        dispatch(goToMove(index));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Status);
