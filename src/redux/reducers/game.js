@@ -33,7 +33,14 @@ const reducer = (state = initialState, action) => {
             };
 
         case GO_TO_MOVE :
-            return state;
+
+            return {
+                ...state,
+                squaresHistory : state.squaresHistory.slice(0, (action.index) + 1),
+                isNextX : ((action.index) % 2) === 0,
+                isDraw : false,
+                winner : null,
+            };
         case SET_BOARD_SIZE : 
             return state;
         default :

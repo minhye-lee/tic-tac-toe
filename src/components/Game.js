@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Board from './Board';
 import { connect } from 'react-redux';
-import { handleClicked } from '../redux/actions';
+import { handleClicked, goToMove } from '../redux/actions';
 
 class Game extends Component {
     setBoard = (event) => {
@@ -14,15 +14,6 @@ class Game extends Component {
         }]
        })
       console.log(squaresSize);
-    }
-
-    jumpTo (move) {
-  
-      this.setState({
-        squaresHistory : this.state.squaresHistory.slice(0, move+1),
-        isNextX : (move % 2) === 0,
-        isDraw : false
-      })
     }
   
     checkDraw (squares) {
@@ -49,7 +40,7 @@ class Game extends Component {
       let moves = _historySquares.map((step, move) => {
         const desc = move ? 'Go to move #' + move : 'Go to game start';
         return(
-          <li><button onClick={() => this.jumpTo(move)}>{desc}</button></li>
+          <li><button onClick={() => this.props.goToMove(move)}>{desc}</button></li>
         )
       })
   
@@ -100,6 +91,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     handleClicked(x,y) {
         dispatch(handleClicked({x,y}));
+    },
+    goToMove(index) {
+        dispatch(goToMove(index));
     }
 })
 
