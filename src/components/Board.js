@@ -5,12 +5,12 @@ import Square from './Square';
 
 class Board extends Component{
 
-    renderSquare(x, y) {
+    renderSquare(x, y, key) {
       const _historySquares = this.props.squaresHistory;
       const _currentSquares = _historySquares[_historySquares.length - 1];
       const _squares = _currentSquares.squares;
 
-      return <Square value={_squares[x][y]} onClick={() => this.props.handleClicked(x, y)} />
+      return <Square value={_squares[x][y]} key={key} onClick={() => this.props.handleClicked(x, y)} />
     }
   
     render() {
@@ -23,11 +23,11 @@ class Board extends Component{
       const rowSize = _squares.map((row, index) => {
         const colSize = _squares[index].map((col, index2) => {
           return(
-            this.renderSquare(index,index2)
+            this.renderSquare(index,index2,index2)
           )
         })
         return(
-          <div className="boardRow">{colSize}</div>
+          <div className="boardRow" key={index} >{colSize}</div>
         )
       })
   
