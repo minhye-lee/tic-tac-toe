@@ -1,19 +1,12 @@
 import React, {Component} from 'react';
 import Board from './Board';
 import { connect } from 'react-redux';
-import { handleClicked, goToMove } from '../redux/actions';
+import { handleClicked, goToMove, setBoardSize } from '../redux/actions';
 
 class Game extends Component {
     setBoard = (event) => {
-  
-      console.log(event.target.value);
-      const squaresSize =  Array(parseInt(event.target.value)).fill(null).map(() => Array(parseInt(event.target.value)).fill(null));
-      this.setState({
-        squaresHistory : [{
-          squares : squaresSize,
-        }]
-       })
-      console.log(squaresSize);
+        const value = parseInt(event.target.value);
+        this.props.setBoardSize(value);
     }
   
     checkDraw (squares) {
@@ -60,23 +53,24 @@ class Game extends Component {
   
       return(
         <div className="Game">
-          <div className="setGameBoard">
-            <label>게임판의 크기를 설정해주세요. :</label>
-            <select onChange={this.setBoard}>
-              <option value="3">3X3</option>
-              <option value="4">4X4</option>
-              <option value="5">5X5</option>
-            </select>
-          </div>
-          <div className="gameBoard">
-          <Board boardsize={_currentSquares.squares} onClick={this.props.handleClicked}/>
-          </div>
-          <div className="gameInfo">
-            <div>{status}</div>
-            <ol>
-              {moves}
-            </ol>
-          </div>
+            <h1>Tic-Tac-Toe Game</h1>
+            <div className="setGameBoard">
+                <label>게임판의 크기를 설정해주세요. : </label>
+                    <select onChange={this.setBoard}>
+                        <option value="3">3X3</option>
+                        <option value="4">4X4</option>
+                        <option value="5">5X5</option>
+                    </select>
+            </div>
+            <div className="gameBoard">
+                <Board boardsize={_currentSquares.squares} onClick={this.props.handleClicked}/>
+            </div>
+            <div className="gameInfo">
+                <div>{status}</div>
+                <ol>
+                    {moves}
+                </ol>
+            </div>
         </div>
       )
     }
@@ -94,7 +88,10 @@ const mapDispatchToProps = (dispatch) => ({
     },
     goToMove(index) {
         dispatch(goToMove(index));
-    }
+    },
+    setBoardSize(event) {
+        dispatch(setBoardSize(event));
+    },
 })
 
 

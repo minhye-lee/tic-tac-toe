@@ -41,8 +41,16 @@ const reducer = (state = initialState, action) => {
                 isDraw : false,
                 winner : null,
             };
+
         case SET_BOARD_SIZE : 
-            return state;
+            const squaresSize =  Array(action.event).fill(null).map(() => Array(action.event).fill(null));
+            return {
+                ...state,
+                squaresHistory : [{
+                    squares : squaresSize,
+                }]
+            }
+
         default :
             return state;
 
