@@ -18,7 +18,10 @@ class Status extends Component {
         }
 
         const moves = this.props.squaresHistory.map((step, move) => {
-            const desc = move ? 'Go to move #' + move : 'Go to game start';
+            console.log(move);
+            console.log(step);
+            console.log(this.props.xyHistory[move]);
+            const desc = move ? 'Go to move # ( ' + this.props.xyHistory[move-1] +' )': 'Go to game start';
             return(
               <li key={move}><button onClick={() => this.props.goToMove(move)}>{desc}</button></li>
             )
@@ -42,7 +45,8 @@ const mapStateToProps = (state) => ({
     winner : state.winner,
     isNextX : state.isNextX,
     isDraw : state.isDraw,
-    squaresHistory : state.squaresHistory
+    squaresHistory : state.squaresHistory,
+    xyHistory : state.xyHistory,
 })
 
 const mapDispatchToProps = (dispatch) => ({

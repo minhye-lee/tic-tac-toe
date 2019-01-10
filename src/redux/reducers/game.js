@@ -8,6 +8,7 @@ const initialState = {
     stepNumber : 0,
     isDraw : false,
     winner : null,
+    xyHistory : [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,6 +32,7 @@ const reducer = (state = initialState, action) => {
                 squaresHistory : _historySquares.concat([{squares : _squares}]),
                 winner : calculateWinner(_squares),
                 isDraw : checkDraw(_squares),
+                xyHistory : state.xyHistory.concat([[action.x, action.y]]),
             };
 
         case GO_TO_MOVE :
@@ -46,7 +48,7 @@ const reducer = (state = initialState, action) => {
         case SET_BOARD_SIZE : 
             const squaresSize =  Array(action.event).fill(null).map(() => Array(action.event).fill(null));
             return {
-                ...state,
+                ...initialState,
                 squaresHistory : [{
                     squares : squaresSize,
                 }]

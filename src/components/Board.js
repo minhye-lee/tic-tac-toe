@@ -16,14 +16,13 @@ class Board extends Component{
     render() {
 
       const _historySquares = this.props.squaresHistory;
-      console.log(_historySquares);
       const _currentSquares = _historySquares[_historySquares.length - 1];
       const _squares = _currentSquares.squares;
 
       const rowSize = _squares.map((row, index) => {
         const colSize = _squares[index].map((col, index2) => {
           return(
-            this.renderSquare(index,index2,index2)
+            this.renderSquare(index, index2, index2)
           )
         })
         return(
