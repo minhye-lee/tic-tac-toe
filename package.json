@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.16.4",
+    "mongoose": "^5.4.3",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
@@ -18,7 +19,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
-  "proxy" : "http://localhost:4000",
+  "proxy": "http://localhost:4000",
   "homepage": "https://minhye-lee.github.io/react-tictactoe",
   "eslintConfig": {
     "extends": "react-app"
