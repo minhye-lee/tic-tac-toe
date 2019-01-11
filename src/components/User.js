@@ -8,7 +8,7 @@ class User extends Component {
                     <form>
                         <label>
                             Name:
-                            <input type="text" name="name" />
+                            <input type="text" name="name" placeholder="영희" />
                         </label>
                     <input type="submit" value="Submit" />
                     </form>
@@ -16,7 +16,7 @@ class User extends Component {
                     <form>
                         <label>
                             Name:
-                            <input type="text" name="name" />
+                            <input type="text" name="name" placeholder="철수"/>
                         </label>
                     <input type="submit" value="Submit" />
                     </form>

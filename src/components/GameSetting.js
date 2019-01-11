@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { setBoardSize } from '../redux/actions';
 
-class Game extends Component {
+class GameSetting extends Component {
     setBoard = (event) => {
         const value = parseInt(event.target.value);
         this.props.setBoardSize(value);
@@ -10,7 +10,7 @@ class Game extends Component {
   
     render () {  
       return(
-        <div className="Game">
+        <div className="GameSetting">
             <h1>Tic-Tac-Toe Game</h1>
             <div className="setGameBoard">
                 <label>게임판의 크기를 설정해주세요. : </label>
@@ -38,4 +38,4 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(GameSetting);

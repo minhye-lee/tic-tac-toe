@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import Game from './components/Game';
-import Status from './components/Status';
-import Board from './components/Board';
-import User from './components/User';
+import { Route, BrowserRouter } from 'react-router-dom';
+import Game from './layout/Game';
+import Home from './layout/Home';
 
 class App extends Component {
   state = { username: null };
@@ -16,15 +15,17 @@ class App extends Component {
   render() {
     const { username } = this.state;
     return(
-      <div className="app">
-        <User />
-        <Game />
-        <Board />
-        <Status />
-        <div>
+      <BrowserRouter>
+      <div>
+          <Route exact path="/" component={Home}/>
+          <Route path="/game" component={Game} />
+
+          {/* express 잘 연동 되었는지 확인용 */}
+          <div>
               {username ? <h1>{`Hello ${username}`}</h1> : <h1>Loading.. please wait!</h1>}
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     );
   }
 }
