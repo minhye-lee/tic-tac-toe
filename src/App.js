@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Game from './components/Game';
 import Status from './components/Status';
 import Board from './components/Board';
+import User from './components/User';
 
 class App extends Component {
   state = { username: null };
@@ -16,6 +17,7 @@ class App extends Component {
     const { username } = this.state;
     return(
       <div className="app">
+        <User />
         <Game />
         <Board />
         <Status />
