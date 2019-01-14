@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import User from '../components/User';
+import SignIn from '../components/SignIn';
 import { Link } from 'react-router-dom';
 
 class Home extends Component {
@@ -12,6 +13,9 @@ class Home extends Component {
                 <button>
                     <Link to = "/game">Game Start! </Link>
                 </button>
+                <div>
+                    <SignIn />
+                </div>
             </div>
         )
     }
