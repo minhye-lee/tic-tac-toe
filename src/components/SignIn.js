@@ -4,7 +4,7 @@ class SignIn extends Component {
     render() {
         return (
             <div>
-                <div>User 1</div>
+                <div>Sign IN!</div>
                     <form action='/api/newUser' method='post'>
                         <label>
                             Name:

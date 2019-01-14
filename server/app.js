@@ -68,15 +68,25 @@ app.get("/api/getUsername", (req, res) => {
 
 //새로운 유저 만들기 (동일이름의 유저가 없다면)
 app.post("/api/newUser", (req, res) => {
-   let newUser = new User({
-       _name : req.body.name,
-       _win : 0,
-       _lose : 0,
-       _draw : 0
-   });
-   newUser.save(function(err) {
-       if(err) console.log(err);
-   })
+ 
+    User.find({_name : req.body.name}, {_name : 1}, (err, users) => {
+        if(err) console.log(err);
+        else if(users[0]['_name'] === req.body.name) {
+            console.log(users[0]['_name']);
+            console.log("same name exist");
+        }
+        else{
+            let newUser = new User({
+                _name : req.body.name,
+                _win : 0,
+                _lose : 0,
+                _draw : 0
+            });
+            newUser.save(function(err) {
+            if(err) console.log(err);
+            })
+        }
+    }).then( res.redirect('/'));
 })
 
 //유저 이름 가져오기 (이미 동일 유저이름이 존재한다면)
