@@ -5,18 +5,15 @@ class User extends Component {
         return (
             <div>
                 <div>User 1</div>
-                    <form>
+                    <form action='/api/getUsername' method='post'>
                         <label>
                             Name:
-                            <input type="text" name="name" placeholder="영희" />
+                            <input type="text" name="user1" placeholder="영희" />
                         </label>
-                    <input type="submit" value="Submit" />
-                    </form>
                 <div>User 2</div>
-                    <form>
                         <label>
                             Name:
-                            <input type="text" name="name" placeholder="철수"/>
+                            <input type="text" name="user2" placeholder="철수"/>
                         </label>
                     <input type="submit" value="Submit" />
                     </form>
