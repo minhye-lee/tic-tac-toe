@@ -2,74 +2,101 @@ const express = require('express');
 const router = express.Router();
 const User = require('./user.js');
 
+var Enrollment = false;
 //라우터
 
 //회원가입
-router.post("/api/newUser", (req, res) => signIn(req, res));
+router.post("/api/newUser", (req, res) => signUp(req, res));
 //모든 유저 가져오기
 router.get("/api/getUser", (req, res) => getUser(req, res));
-
-router.post("/api/getUsername", (req, res) => {
-    let _user1 = req.body.user1;
-    let _user2 = req.body.user2;
-    authUser(_user1, (err, docs) => {
-        if(err) console.log(err);
-        if(docs) {
-            console.log("qq");
-            res.redirect('/');
-        } else {
-            console.log("ww");
-            res.redirect('/');
-        }
-    });
-});
-//유저 이름 가져오기 (이미 동일 유저이름이 존재한다면)
+//로그인
+router.post("/api/getUsername", (req, res) => signIn(req, res));
 
 module.exports = router;
 
-//회원가입
-const signIn = (req, res) => {
-    if (req.body.name) {
-        User.findOneAndUpdate({
-            _name: req.body.name
-        }, {
-            $set: {
-                _name: req.body.name
-            }
-        }, {
-            upsert: true
-        }, (err, users) => {
-            console.log(users);
-            if (users) console.log('duplicated');
-        })
-    } else {
-        console.log('insert name');
-    }
+//컨트롤러
 
-    res.redirect('/');
+//회원가입
+const signUp = async (req, res) => {
+    let temp_newUser = req.body.name;
+    console.log(req.body);
+    let newUser = await isDuplicate(temp_newUser); //중복검사
+    console.log("newUser " + newUser);
+    if(newUser) {
+        console.log('welcome newUser');
+        await enrollmentUser(newUser); //db입력
+        Enrollment = true;
+        res.send({enroll : true});
+        console.log(req.body);
+    } else {
+        res.send({enroll : false});
+        console.log('already exist');
+    }
 }
+//중복확인
+const isDuplicate = (user) => new Promise((resolve) => {
+    //console.log("newuser : " + user);
+    User.find({_name : user}, (err, docs) => {
+        if(err) {
+            console.log(err);
+        }
+        if(docs.length > 0){
+            resolve(null);
+        } else {
+            resolve(user);
+        }
+    })
+})
+//중복확인 후에 회원 등록
+const enrollmentUser = (user) => new Promise((resolve) => {
+    let newUser = new User({_name : user, _win : 0, _lose : 0, _draw : 0, });
+    newUser.save((err) => {
+        if(err) console.log(err);
+        console.log("newUser : " + user);
+        resolve(user);
+    })
+})
 //모든 유저
 const getUser = (req, res) => {
     User.find((err, users) => {
         if (err) return res.status(500).send({
             error: 'database fail!'
         });
-
         res.send(users);
     })
 }
-const authUser = (user, callback) => {
+//로그인
+const signIn = async (req, res) => {
+    let temp_user1 = req.body.user1;
+    let temp_user2 = req.body.user2;
+
+    let auth_user1 = await authUser(temp_user1);
+    let auth_user2 = await authUser(temp_user2);
+    console.log("인증된 유저 : " + auth_user1, auth_user2);
+
+    if (auth_user1 && auth_user2) {
+        console.log('로그인 성공');
+        res.send({login : true});
+        res.redirect('/game');
+    } else {
+        console.log('로그인 실패');
+        res.send({login : false});
+        res.redirect('/');
+    }
+}
+//유저 인증
+const authUser = (user) => new Promise((resolve) => {
     console.log('user ' + user);
-    User.find({_name : user}, (err, docs) => {
-        if (err) {
-            callback(err, null);
-        }
-        if(docs.length > 0) {
-            console.log('find user ' + docs );
-            callback(null, docs);
+    User.find({
+        _name: user
+    }, (err, docs) => {
+        if (err) {}
+        if (docs.length > 0) {
+            console.log('find user ' + docs);
+            resolve(docs[0]["_name"]);
         } else {
             console.log('can not find' + docs);
-            callback(null, null);
+            resolve(null);
         }
     });
-}
+});
