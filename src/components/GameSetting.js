@@ -4,11 +4,12 @@ import { setBoardSize } from '../redux/actions';
 
 class GameSetting extends Component {
     setBoard = (event) => {
+        const { setBoardSize } = this.props;
         const value = parseInt(event.target.value);
-        this.props.setBoardSize(value);
+        setBoardSize(value);
     }
   
-    render () {  
+    render = () => {  
       return(
         <div className="GameSetting">
             <h1>Tic-Tac-Toe Game</h1>
@@ -24,18 +25,9 @@ class GameSetting extends Component {
       )
     }
   }
-const mapStateToProps = (state) => ({
-    squaresHistory : state.squaresHistory,
-    isNextX : state.isNextX,
-    winner : state.winner,
-    
-});
 
-const mapDispatchToProps = (dispatch) => ({
-    setBoardSize(event) {
-        dispatch(setBoardSize(event));
-    },
-})
+const mapDispatchToProps = {
+    setBoardSize,
+}
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(GameSetting);
+export default connect(null, mapDispatchToProps)(GameSetting);

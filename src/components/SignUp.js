@@ -1,57 +1,47 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { inputNewUserName, postSignUp } from  '../redux/actions';
+
 
 class SignUp extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            iscomplete : null,
-            input : '',
-        };
-    }
-
-    handleChange = (event) => {
-        this.setState({input : event.target.value});
-    }
 
     handleClick = () => {
-        console.log(this.state.input);
-        fetch('/api/newUser', {
-            method : 'POST',
-            headers: {'Content-Type' : 'application/json'},
-            body : JSON.stringify({
-                "name" : this.state.input  
-            })
-        })
-        .then(res => {
-            console.log(res)
-            return res.json()
-        })
-        .then(iscomplete => this.setState({iscomplete : iscomplete.enroll}))
-        .then(() => {
-            if(this.state.iscomplete) {
-            console.log(this.state.iscomplete);
-            alert('회원가입 완료');
-            } else {
-            console.log(this.state.iscomplete);
-            alert('회원가입 실패');
-            }});
-    
-        
-
+        const { postSignUp, newUserName } = this.props;
+        postSignUp(newUserName);
     }
 
     render() {
+        const { inputNewUserName } = this.props;
         return (
-            <div>
-                <div>Sign Up!</div>
+            <div className="signUp">
+                <h2>Sign Up</h2>
+                    <form>
                         <label>
                             Name:
-                            <input type="text" name="name" placeholder="user" onChange={this.handleChange} autoComplete='off'/>
+                            <input 
+                                type="text"
+                                name="name"
+                                placeholder="user"
+                                onChange={(e) => inputNewUserName(e.target.value)}
+                                autoComplete='off'/>
                         </label>
-                        <button onClick={this.handleClick}>Submit</button>
+                        <button
+                            type="reset"
+                            onClick={this.handleClick}>
+                            Submit
+                        </button>
+                    </form>
             </div>
         ); 
     }
 }
 
-export default SignUp;
+const mapStateToProps = state => ({
+    newUserName : state.user.newUserName,
+    isCompleteSignUp : state.user.isCompleteSignUp,
+})
+const mapDispatchToProps = {
+    inputNewUserName,
+    postSignUp,
+};
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

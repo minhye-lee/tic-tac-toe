@@ -5,21 +5,26 @@ import Square from './Square';
 
 class Board extends Component{
 
-    renderSquare(x, y, key) {
-      const _historySquares = this.props.squaresHistory;
+    renderSquare = (x, y, key) => {
+      const { squaresHistory } = this.props;
+      const _historySquares = squaresHistory;
       const _currentSquares = _historySquares[_historySquares.length - 1];
       const _squares = _currentSquares.squares;
 
-      return <Square value={_squares[x][y]} key={key} onClick={() => this.props.handleClicked(x, y)} />
+      return <Square value={_squares[x][y]} key={key} onClick={() => this.handleClick(x,y)} />
+    }
+
+    handleClick = (x, y) => {
+      this.props.handleClicked(x,y);
     }
   
-    render() {
-
-      const _historySquares = this.props.squaresHistory;
+    render = () => {
+      const { squaresHistory } = this.props;
+      const _historySquares = squaresHistory;
       const _currentSquares = _historySquares[_historySquares.length - 1];
       const _squares = _currentSquares.squares;
 
-      const rowSize = _squares.map((row, index) => {
+      const boardSize = _squares.map((row, index) => {
         const colSize = _squares[index].map((col, index2) => {
           return(
             this.renderSquare(index, index2, index2)
@@ -31,20 +36,17 @@ class Board extends Component{
       })
   
       return(
-        <div>{rowSize}</div>
+        <div>{boardSize}</div>
       )
     }
   }
 
-  const mapStateToProps = (state) => ({
-    squaresHistory : state.squaresHistory,
+  const mapStateToProps = state => ({
+    squaresHistory : state.game.squaresHistory,
 
   });
-
-  const mapDispatchToProps = (dispatch) => ({
-    handleClicked(x,y) {
-      dispatch(handleClicked({x,y}));
-    },
-  });
+  const mapDispatchToProps = {
+    handleClicked,
+  };
 
   export default connect(mapStateToProps, mapDispatchToProps)(Board);

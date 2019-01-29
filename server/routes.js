@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('./user.js');
 
-var Enrollment = false;
+
 //라우터
 
 //회원가입
@@ -11,12 +11,13 @@ router.post("/api/newUser", (req, res) => signUp(req, res));
 router.get("/api/getUser", (req, res) => getUser(req, res));
 //로그인
 router.post("/api/getUsername", (req, res) => signIn(req, res));
+//score저장
+router.put("/api/updateScore", (req, res) => updateScore(req, res));
 
 module.exports = router;
 
 //컨트롤러
-
-//회원가입
+//api/newUser (회원가입)
 const signUp = async (req, res) => {
     let temp_newUser = req.body.name;
     console.log(req.body);
@@ -56,7 +57,7 @@ const enrollmentUser = (user) => new Promise((resolve) => {
         resolve(user);
     })
 })
-//모든 유저
+//api/getUer (모든 유저)
 const getUser = (req, res) => {
     User.find((err, users) => {
         if (err) return res.status(500).send({
@@ -65,23 +66,21 @@ const getUser = (req, res) => {
         res.send(users);
     })
 }
-//로그인
+//api/getUsername (로그인)
 const signIn = async (req, res) => {
     let temp_user1 = req.body.user1;
     let temp_user2 = req.body.user2;
 
     let auth_user1 = await authUser(temp_user1);
     let auth_user2 = await authUser(temp_user2);
-    console.log("인증된 유저 : " + auth_user1, auth_user2);
+   // console.log("인증된 유저 : " + auth_user1, auth_user2);
 
     if (auth_user1 && auth_user2) {
         console.log('로그인 성공');
-        res.send({login : true});
-        res.redirect('/game');
+        res.send({login : true, auth_user1 : auth_user1, auth_user2 : auth_user2 });
     } else {
         console.log('로그인 실패');
         res.send({login : false});
-        res.redirect('/');
     }
 }
 //유저 인증
@@ -92,11 +91,27 @@ const authUser = (user) => new Promise((resolve) => {
     }, (err, docs) => {
         if (err) {}
         if (docs.length > 0) {
-            console.log('find user ' + docs);
-            resolve(docs[0]["_name"]);
+            resolve([docs[0]["_name"], docs[0]["_win"], docs[0]["_lose"], docs[0]["_draw"]]);
         } else {
             console.log('can not find' + docs);
             resolve(null);
         }
     });
 });
+//api/updateScore (유저 스코어 db저장)
+const updateScore = async (req, res) => {
+    let user1 = req.body.user1;
+    let user2 = req.body.user2;
+    score1 = await changeScoreDB(user1);
+    score2 = await changeScoreDB(user2);
+    console.log(score1, score2);
+}
+const changeScoreDB = (user) => new Promise((resolve) => {
+    console.log(user);
+    User.updateOne({"_name" : user[0]}, {$set : {"_win" : user[1], "_lose" : user[2], "_draw" : user[3]} },
+    (err, docs) => {
+        if(err) {
+            console.log(err);
+        }
+    })
+})

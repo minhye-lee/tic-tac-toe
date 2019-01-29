@@ -3,29 +3,40 @@ import { connect } from 'react-redux';
 import { goToMove } from '../redux/actions';
 
 class Status extends Component {
+
     render () {
-        const winner = this.props.winner;
+        const { winner, isNextX, isDraw, curUser1, curUser2, squaresHistory, goToMove, xyHistory } = this.props;
+        let curWinner = null;
         let status;
 
-        if(winner) {
-            status = 'Winner : ' + winner;
+        if(winner === 'X') {
+            curWinner = curUser1.name;
         }
-        else if(this.props.isDraw) {
+        else if(winner === 'O'){
+            curWinner = curUser2.name;
+        }
+        else{
+            curWinner = null
+        }
+
+        if(curWinner) {
+            status = `Winner :  ${curWinner}`;
+        }
+        else if(isDraw) {
             status = 'Draw!!!';
         }
         else {
-            status = 'Next Player : ' + (this.props.isNextX ? "X" : "O");
+            status = `Next Player : ${isNextX ? curUser1.name : curUser2.name}`;
         }
 
-        const moves = this.props.squaresHistory.map((step, move) => {
-            console.log(move);
-            console.log(step);
-            console.log(this.props.xyHistory[move]);
-            const desc = move ? 'Go to move # ( ' + this.props.xyHistory[move-1] +' )': 'Go to game start';
+
+        const moves = squaresHistory.map((_, move) => {
+            const desc = move ? `Go to move # ( ${xyHistory[move-1]}  )`: `Go to game start`;
             return(
-              <li key={move}><button onClick={() => this.props.goToMove(move)}>{desc}</button></li>
+              <li key={move}><button onClick={() => goToMove(move)}>{desc}</button></li>
             )
           })
+           
 
         return (
             <div className="gameInfo">
@@ -41,18 +52,17 @@ class Status extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    winner : state.winner,
-    isNextX : state.isNextX,
-    isDraw : state.isDraw,
-    squaresHistory : state.squaresHistory,
-    xyHistory : state.xyHistory,
+const mapStateToProps = state => ({
+    winner : state.game.winner,
+    isNextX : state.game.isNextX,
+    isDraw : state.game.isDraw,
+    squaresHistory : state.game.squaresHistory,
+    xyHistory : state.game.xyHistory,
+    curUser1 : state.user.curUser1,
+    curUser2 : state.user.curUser2
 })
 
-const mapDispatchToProps = (dispatch) => ({
-    goToMove(index) {
-        dispatch(goToMove(index));
-    }
-});
-
+const mapDispatchToProps = {
+    goToMove
+}
 export default connect(mapStateToProps, mapDispatchToProps)(Status);

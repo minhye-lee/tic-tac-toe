@@ -3,17 +3,10 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import Game from './layout/Game';
 import Home from './layout/Home';
 
-class App extends Component {
-//   state = { username: null };
-//   componentDidMount() {
-//     fetch('/api/newUser')
-//     .then(res => res.json())
-//     .then(user => this.setState({ username: user.enroll }));
-// }
 
+class App extends Component {
+  
   render() {
-    //const { username } = this.state;
-  //  console.log("확인 : " + this.state.username);
     return(
       <BrowserRouter>
         <div>
