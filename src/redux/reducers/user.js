@@ -99,23 +99,29 @@ const user = (state = initialState, action) => {
             const login = action.response_signin;
             const user1 = action.user1;
             const user2 = action.user2;
-            return {
-                ...state,
-                isCompleteSignIn : login,
-                curUser1 : {
-                    ...state.curUser1,
-                    win : user1[1],
-                    lose : user1[2],
-                    draw : user1[3]
-                },
-                curUser2 : {
-                    ...state.curUser2,
-                    win : user2[1],
-                    lose : user2[2],
-                    draw : user2[3]
+            if(login) {
+                return {
+                    ...state,
+                    isCompleteSignIn : login,
+                    curUser1 : {
+                        ...state.curUser1,
+                        win : user1[1],
+                        lose : user1[2],
+                        draw : user1[3]
+                    },
+                    curUser2 : {
+                        ...state.curUser2,
+                        win : user2[1],
+                        lose : user2[2],
+                        draw : user2[3]
+                    }
                 }
-            };
-            
+            } else {
+                return {
+                    ...state,
+                    isCompleteSignIn : login
+                }
+            }
         default :
             return state;
     }

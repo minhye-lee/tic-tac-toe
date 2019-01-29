@@ -14,25 +14,27 @@ class SignIn extends Component {
         return (
             <div>
                 <h2>Sign In</h2>
-                <h4>User 1</h4>
-                        <label>
-                            Name 
-                            <input
-                                type="text"
-                                name="user1"
-                                placeholder="user1"
-                                onChange={(e) => inputUser1Name(e.target.value)}/>
-                        </label>
-                <h4>User 2</h4>
-                        <label>
-                            Name 
-                            <input
-                                type="text"
-                                name="user2"
-                                placeholder="user2"
-                                onChange={(e) => inputUser2Name(e.target.value)}/>
-                        </label>
-                <button onClick={this.handleClick}> Login </button>
+                <form>
+                    <h4>User 1</h4>
+                            <label>
+                                Name 
+                                <input
+                                    type="text"
+                                    name="user1"
+                                    placeholder="user1"
+                                    onChange={(e) => inputUser1Name(e.target.value)}/>
+                            </label>
+                    <h4>User 2</h4>
+                            <label>
+                                Name 
+                                <input
+                                    type="text"
+                                    name="user2"
+                                    placeholder="user2"
+                                    onChange={(e) => inputUser2Name(e.target.value)}/>
+                            </label>
+                    <button type="reset" onClick={this.handleClick}> Login </button>
+                </form>
             </div>
         ) 
     }
