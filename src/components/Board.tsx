@@ -1,11 +1,16 @@
-import React, {Component} from 'react';
+import * as React from 'react'
 import { connect } from 'react-redux';
 import { handleClicked } from '../redux/actions';
 import Square from './Square';
 
-class Board extends Component{
+interface IProps {
+  squaresHistory : { squares : string[][]; }[];
+  handleClicked : (x : number, y : number) => void;
+}
 
-    renderSquare = (x, y, key) => {
+class Board extends React.Component<IProps>{
+
+    renderSquare = (x : number, y : number, key : number) => {
       const { squaresHistory } = this.props;
       const _historySquares = squaresHistory;
       const _currentSquares = _historySquares[_historySquares.length - 1];

@@ -8,13 +8,13 @@ class Score extends Component {
         //winner 갱신되면 score component 갱신
         const {winner, isDraw, curUser1, curUser2, recordScore} = this.props;
         if(winner !== nextProps.winner || isDraw !== nextProps.isDraw) {
-            if(nextProps.winner === 'X' && nextProps.winner !== null) {
+            if(nextProps.winner === 'X' && nextProps.winner !== 'null') {
                 recordScore(curUser1, curUser2);
             }
-            else if(nextProps.winner === 'O' && nextProps.winner !== null){
+            else if(nextProps.winner === 'O' && nextProps.winner !== 'null'){
                 recordScore(curUser2, curUser1);
             }
-            else if(nextProps.winner === null && nextProps.isDraw === true){
+            else if(nextProps.winner === 'null' && nextProps.isDraw === true){
                 recordScore(null, null);
             }
         }

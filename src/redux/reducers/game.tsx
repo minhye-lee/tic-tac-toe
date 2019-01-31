@@ -1,6 +1,15 @@
 import { HANDLE_CLICKED, GO_TO_MOVE, SET_BOARD_SIZE } from "../actionTypes";
 import { getWinner, checkDraw } from './calculate';
 
+interface IState {
+    squaresHistory : {squares : string[][];}[];
+    isNextX : boolean;
+    stepNumber : number;
+    winner : any;
+    isDraw : boolean;
+    xyHistory : any[];
+}
+
 const initialState = {
     squaresHistory : [{
         squares: Array(3).fill(null).map(() => Array(3).fill(null)),
@@ -12,7 +21,7 @@ const initialState = {
     xyHistory : [],
 };
 
-const game = (state = initialState, action) => {
+const game = (state : IState = initialState, action : any) => {
     switch(action.type) {
         case HANDLE_CLICKED :
 
@@ -20,7 +29,7 @@ const game = (state = initialState, action) => {
             const _currentSquares = JSON.parse(JSON.stringify( _historySquares[_historySquares.length -1] ));
             const _squares = _currentSquares.squares.slice();
 
-            if(state.winner || _squares[action.x][action.y]) { //승패가 가려지거나 이미 눌러진 버튼이라면 state 리턴
+            if(state.winner|| _squares[action.x][action.y]) { //승패가 가려지거나 이미 눌러진 버튼이라면 state 리턴
               return state;
             } 
 
