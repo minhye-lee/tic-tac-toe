@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import SignIn from '../components/SignIn';
 import SignUp from '../components/SignUp';
 import Score from '../components/Score';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-class Home extends Component {
+interface IProps {
+    isCompleteSignIn : boolean;
+}
+
+class Home extends React.Component<IProps> {
 
     render () {
         const { isCompleteSignIn } = this.props;
-        let button = null;
+        let button : any = null;
         if(!isCompleteSignIn)
             button = <button onClick={() => alert('로그인을 해주세요')}>Game Start</button>
         else

@@ -1,8 +1,17 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { recordScore } from  '../redux/actions';
 
-class Score extends Component {
+interface IProps {
+    curUser1 : { name : string, win : number, lose : number, draw : number } 
+    curUser2 : { name : string, win : number, lose : number, draw : number } 
+    winner : any
+    isDraw : boolean
+    recordScore : (winner : any , loser : any) => void;
+  }
+  
+
+class Score extends React.Component<IProps> {
 
     componentWillReceiveProps (nextProps) {
         //winner 갱신되면 score component 갱신

@@ -1,55 +1,98 @@
 import * as types from "./actionTypes";
+import { ThunkDispatch } from 'redux-thunk';
+import { Action, ActionCreator, Dispatch} from 'redux';
 
-//game
-export const handleClicked = (x, y) => ({
+// game reducer
+// 버튼 클릭시에 마크 표시
+export interface HandleClicked {
+    type: types.HANDLE_CLICKED;
+    x : number;
+    y : number;
+}
+export const handleClicked = (x : number, y : number) : HandleClicked => ({
     type: types.HANDLE_CLICKED,
     x,
     y
 });
-
-export const goToMove = (index) => ({
+// 해당 squarehistory로 이동
+export interface GoToMove {
+    type: types.GO_TO_MOVE;
+    index : number;
+};
+export const goToMove = (index : number) : GoToMove => ({
     type: types.GO_TO_MOVE,
     index
 });
-
-export const setBoardSize = (size) => ({
+// 게임판의 사이즈 결정
+export interface SetBoardSize {
+    type: types.SET_BOARD_SIZE;
+    size : number
+};
+export const setBoardSize = (size : number) : SetBoardSize => ({
     type: types.SET_BOARD_SIZE,
     size
 });
 
-//user
-export const fetchSignUp = (response_signup) => ({
-    type: types.FETCH_SIGN_UP,
-    response_signup
-});
-
-export const inputNewUserName = (name) => ({
+// user reducer
+// 회원가입시 username 입력
+export interface InputNewUserName {
+    type: types.INPUT_NEW_USER_NAME;
+    name : string;
+};
+export const inputNewUserName = (name : string) : InputNewUserName => ({
     type: types.INPUT_NEW_USER_NAME,
     name
 });
-
-export const inputUser1Name = (user1_name) => ({
+// user1 로그인시 username 입력
+export interface InputUser1Name {
+    type: types.INPUT_USER1_NAME;
+    user1_name : string;
+};
+export const inputUser1Name = (user1_name : string) : InputUser1Name => ({
     type: types.INPUT_USER1_NAME,
     user1_name
 });
-
-export const inputUser2Name = (user2_name) => ({
+// user2 로그인시 username 입력
+export interface InputUser2Name {
+    type: types.INPUT_USER2_NAME;
+    user2_name : string;
+};
+export const inputUser2Name = (user2_name : string) : InputUser2Name => ({
     type: types.INPUT_USER2_NAME,
     user2_name
 });
-
-export const recordResult = (win_user, lose_user) => ({
+//승패가 가려지면 결과 저장
+export interface RecordResult {
+    type : types.RECORD_RESULT;
+    win_user : string;
+    lose_user : string;
+}
+export const recordResult = (win_user : string, lose_user : string) : RecordResult => ({
     type: types.RECORD_RESULT,
     win_user,
     lose_user
 });
-
-export const fetchSignIn = (response_signin) => ({
+//회원가입 성공여부
+export interface FetchSignUp {
+    type : types.FETCH_SIGN_UP;
+    response_signup : boolean;
+}
+export const fetchSignUp = (response_signup : boolean) : FetchSignUp => ({
+    type: types.FETCH_SIGN_UP,
+    response_signup
+});
+//로그인 성공여부
+export interface FetchSignIn {
+    type : types.FETCH_SIGN_IN;
+    response_signin : boolean;
+}
+export const fetchSignIn = (response_signin : boolean) : FetchSignIn => ({
     type: types.FETCH_SIGN_IN,
     response_signin
 });
 
-export const postSignUp = (name) => dispatch => {
+
+export const postSignUp = (name : string) => (dispatch : Dispatch) => {
     fetch('/api/newUser', {
             method: 'POST',
             headers: {
@@ -76,7 +119,7 @@ export const postSignUp = (name) => dispatch => {
         })
 }
 
-export const postSignIn = (user1, user2) => dispatch => {
+export const postSignIn = (user1 : string, user2 : string) => (dispatch : Dispatch) => {
     if(user1 !== user2){
         fetch('/api/getUsername', {
             method: 'POST',

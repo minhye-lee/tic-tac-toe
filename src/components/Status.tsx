@@ -1,8 +1,24 @@
-import React, { Component } from 'react';
+import * as React from 'react';
+import { returntypeof } from'react-redux-typescript';
 import { connect } from 'react-redux';
 import { goToMove } from '../redux/actions';
 
-class Status extends Component {
+const mapStateToProps = state => ({
+    winner : state.game.winner,
+    isNextX : state.game.isNextX,
+    isDraw : state.game.isDraw,
+    squaresHistory : state.game.squaresHistory,
+    xyHistory : state.game.xyHistory,
+    curUser1 : state.user.curUser1,
+    curUser2 : state.user.curUser2
+})
+const mapDispatchToProps = {
+    goToMove
+}
+const stateProps = returntypeof(mapStateToProps);
+type Props = typeof stateProps & typeof mapDispatchToProps;
+
+class Status extends React.Component<Props> {
 
     render () {
         const { winner, isNextX, isDraw, curUser1, curUser2, squaresHistory, goToMove, xyHistory } = this.props;
@@ -52,17 +68,5 @@ class Status extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    winner : state.game.winner,
-    isNextX : state.game.isNextX,
-    isDraw : state.game.isDraw,
-    squaresHistory : state.game.squaresHistory,
-    xyHistory : state.game.xyHistory,
-    curUser1 : state.user.curUser1,
-    curUser2 : state.user.curUser2
-})
 
-const mapDispatchToProps = {
-    goToMove
-}
 export default connect(mapStateToProps, mapDispatchToProps)(Status);

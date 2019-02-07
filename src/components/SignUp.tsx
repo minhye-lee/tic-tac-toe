@@ -1,9 +1,15 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { inputNewUserName, postSignUp } from  '../redux/actions';
 
+interface IProps {
+    postSignUp : (name : string) => void;
+    newUserName : string;
+    inputNewUserName : (name : string) => void;
+}
+  
 
-class SignUp extends Component {
+class SignUp extends React.Component<IProps> {
 
     handleClick = () => {
         const { postSignUp, newUserName } = this.props;
@@ -38,7 +44,6 @@ class SignUp extends Component {
 
 const mapStateToProps = state => ({
     newUserName : state.user.newUserName,
-    isCompleteSignUp : state.user.isCompleteSignUp,
 })
 const mapDispatchToProps = {
     inputNewUserName,

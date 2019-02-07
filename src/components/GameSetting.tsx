@@ -1,11 +1,16 @@
-import React, {Component} from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { setBoardSize } from '../redux/actions';
 
-class GameSetting extends Component {
+interface IProps {
+    setBoardSize : (size : number) => void;
+  }
+  
+
+class GameSetting extends React.Component<IProps> {
     setBoard = (event) => {
         const { setBoardSize } = this.props;
-        const value = parseInt(event.target.value);
+        const value : number = parseInt(event.target.value);
         setBoardSize(value);
     }
   

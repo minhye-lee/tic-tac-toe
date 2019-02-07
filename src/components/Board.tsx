@@ -1,6 +1,8 @@
-import * as React from 'react'
+import * as React from 'react';
+import { returntypeof } from 'react-redux-typescript';
 import { connect } from 'react-redux';
 import { handleClicked } from '../redux/actions';
+import { IState } from '../redux/reducers/game';
 import Square from './Square';
 
 interface IProps {
@@ -8,7 +10,7 @@ interface IProps {
   handleClicked : (x : number, y : number) => void;
 }
 
-class Board extends React.Component<IProps>{
+class Board extends React.Component<IProps> {
 
     renderSquare = (x : number, y : number, key : number) => {
       const { squaresHistory } = this.props;
@@ -16,10 +18,14 @@ class Board extends React.Component<IProps>{
       const _currentSquares = _historySquares[_historySquares.length - 1];
       const _squares = _currentSquares.squares;
 
-      return <Square value={_squares[x][y]} key={key} onClick={() => this.handleClick(x,y)} />
+      return <Square
+              value={_squares[x][y]}
+              key={key}
+              onClick={() => this.handleClick(x,y)}
+              />
     }
 
-    handleClick = (x, y) => {
+    handleClick = (x : number, y : number) => {
       this.props.handleClicked(x,y);
     }
   
@@ -29,8 +35,8 @@ class Board extends React.Component<IProps>{
       const _currentSquares = _historySquares[_historySquares.length - 1];
       const _squares = _currentSquares.squares;
 
-      const boardSize = _squares.map((row, index) => {
-        const colSize = _squares[index].map((col, index2) => {
+      const boardSize = _squares.map((_, index) => {
+        const colSize = _squares[index].map((_, index2) => {
           return(
             this.renderSquare(index, index2, index2)
           )
@@ -46,7 +52,7 @@ class Board extends React.Component<IProps>{
     }
   }
 
-  const mapStateToProps = state => ({
+  const mapStateToProps = (state) => ({
     squaresHistory : state.game.squaresHistory,
 
   });

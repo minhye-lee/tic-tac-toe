@@ -1,8 +1,19 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { inputUser1Name, inputUser2Name, postSignIn } from  '../redux/actions';
 
-class SignIn extends Component {
+interface IProps {
+
+    curUser1 : { name : string, win : number, lose : number, draw : number };
+    curUser2 : { name : string, win : number, lose : number, draw : number };
+    inputUser1Name : (user1_name : string) => void;
+    inputUser2Name : (user2_name : string) => void;
+    postSignIn : (user1 : string, user2: string ) => void;
+
+}
+  
+
+class SignIn extends React.Component<IProps> {
 
     handleClick = () => {
         const { postSignIn, curUser1, curUser2 } = this.props;

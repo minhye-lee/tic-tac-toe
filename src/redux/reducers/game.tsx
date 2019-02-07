@@ -1,7 +1,8 @@
 import { HANDLE_CLICKED, GO_TO_MOVE, SET_BOARD_SIZE } from "../actionTypes";
 import { getWinner, checkDraw } from './calculate';
 
-interface IState {
+
+export interface IState {
     squaresHistory : {squares : string[][];}[];
     isNextX : boolean;
     stepNumber : number;
@@ -10,7 +11,7 @@ interface IState {
     xyHistory : any[];
 }
 
-const initialState = {
+export const initialState = {
     squaresHistory : [{
         squares: Array(3).fill(null).map(() => Array(3).fill(null)),
     }],

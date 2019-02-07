@@ -1,7 +1,15 @@
 import { FETCH_SIGN_UP, FETCH_SIGN_IN, INPUT_NEW_USER_NAME, INPUT_USER1_NAME, INPUT_USER2_NAME, RECORD_RESULT } from '../actionTypes';
 
+interface IState {
+    isCompleteSignUp : boolean;
+    newUserName : string;
+    isCompleteSignIn : boolean;
+    curUser1 : { name : string, win : number, lose : number, draw : number } 
+    curUser2 : { name : string, win : number, lose : number, draw : number } 
+}
+
 const initialState = {
-    isCompleteSignUp : null,
+    isCompleteSignUp : false,
     newUserName : '',
     isCompleteSignIn : false,
     curUser1 : {
@@ -18,7 +26,7 @@ const initialState = {
     },
 };
 
-const user = (state = initialState, action) => {
+const user = (state : IState = initialState, action : any) => {
     switch(action.type) {
         case INPUT_NEW_USER_NAME :
             return {
